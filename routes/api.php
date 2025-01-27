@@ -4,8 +4,10 @@ use App\Http\Controllers\ModuleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::controller(ModuleController::class)
+Route::prefix('modules')
+    ->name('modules.')
+    ->controller(ModuleController::class)
     ->group(function () {
-        Route::post('/modules', 'store');
-        Route::get('/modules/{id}/download', 'download');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{id}/download', 'download')->name('download');
     });
