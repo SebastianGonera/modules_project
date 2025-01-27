@@ -23,10 +23,36 @@ class ModuleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'width'=>'required|string',
-            'height'=>'required|string',
-            'color' => 'required|string',
-            'link'=> 'required|url',
+            'width'=>[
+                'required',
+                'regex:/^(auto|inherit|initial|calc\([^()]*\)|\d+(\.\d+)?(px|cm|mm|in|pt|pc|em|rem|vh|vw|vmin|vmax|%))$/',
+            ],
+            'height'=>[
+                'required',
+                'regex:/^(auto|inherit|initial|calc\([^()]*\)|\d+(\.\d+)?(px|cm|mm|in|pt|pc|em|rem|vh|vw|vmin|vmax|%))$/',
+            ],
+            'color' => [
+                'required',
+                'regex:/^#[0-9a-fA-F]{6}$|^#[0-9a-fA-F]{3}$/'
+            ],
+            'link'=> [
+                'required',
+                'url:http,https'
+            ],
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+    */
+    public function messages(): array
+    {
+        return [
+            'width.regex' => 'Invalid value specified for width. Allowed numeric values with units e.g. px, rem, % or keywords: autop, inherit, initial, calc().',
+            'height.regex' => 'Invalid value specified for height. Allowed numeric values with units e.g. px, rem, % or keywords: autop, inherit, initial, calc().',
+            'color.regex' => 'Invalid value specified for color. Allowed hexadecimal notation e.g.: #221144.'
         ];
     }
 }
